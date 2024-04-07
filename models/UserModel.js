@@ -16,6 +16,10 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref:  "Role",
   },
+  profilePicture: {
+    type: String,
+    default: "https://res.cloudinary.com/dkwrhfiuw/image/upload/v1712498035/cld-sample-2.jpg"
+  }
 });
 
 module.exports = mongoose.model("User", UserSchema);

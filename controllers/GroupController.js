@@ -176,11 +176,31 @@ const handleLeaveGroup = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
+const deleteGroup = async (req, res) => {
+  const groupId = req.params.id;
+  try {
+    // Find and delete all expenses related to the group
+    await GroupExpenseSchema.deleteMany({ group: groupId });
+    const removedGroup = await GroupSchema.findByIdAndDelete(groupId);
+
+    if (!removedGroup) {
+      res.status(404).json({ message: "No group was found with this id" });
+    } else {
+      res.status(200).json({ message: "group deleted!!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
 
 
 module.exports = {
   getAllGroups,
   createGroup,
+  deleteGroup,
   inviteUserToJoinGroup,
   handleInvitation,
   handleLeaveGroup,
